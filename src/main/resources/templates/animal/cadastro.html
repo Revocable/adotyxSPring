@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Animal</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div th:replace="~{fragments/header :: header}"></div>
+    
+    <div class="container mt-4">
+        <h2>Cadastro de Animal</h2>
+        <form th:action="@{/animais/salvar}" method="post" th:object="${animal}">
+            <div class="form-group">
+                <label for="nome">Nome</label>
+                <input type="text" class="form-control" id="nome" th:field="*{nome}" required>
+            </div>
+            <div class="form-group">
+                <label for="idade">Idade</label>
+                <input type="number" class="form-control" id="idade" th:field="*{idade}" required>
+            </div>
+            <div class="form-group">
+                <label for="raca">Raça</label>
+                <input type="text" class="form-control" id="raca" th:field="*{raca}" required>
+            </div>
+            <div class="form-group">
+                <label for="sexo">Sexo</label>
+                <select class="form-control" id="sexo" th:field="*{sexo}" required>
+                    <option value="M">Macho</option>
+                    <option value="F">Fêmea</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="pathFoto">Foto (URL)</label>
+                <input type="text" class="form-control" id="pathFoto" th:field="*{pathFoto}">
+            </div>
+            <div class="form-group">
+                <label for="tutor">Tutor</label>
+                <select class="form-control" id="tutor" th:field="*{tutor}">
+                    <option value="">Selecione um tutor</option>
+                    <option th:each="tutor : ${tutores}" th:value="${tutor.id}" th:text="${tutor.nome}"></option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Cadastrar</button>
+        </form>
+    </div>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

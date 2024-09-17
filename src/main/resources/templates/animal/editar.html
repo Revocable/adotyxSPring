@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Animal</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div th:replace="~{fragments/header :: header}"></div>
+    
+    <div class="container mt-4">
+        <h2>Editar Animal</h2>
+        <form th:action="@{/animais/atualizar}" method="post" th:object="${animal}">
+            <input type="hidden" th:field="*{id}">
+            <div class="form-group">
+                <label for="nome">Nome</label>
+                <input type="text" class="form-control" id="nome" th:field="*{nome}" required>
+            </div>
+            <div class="form-group">
+                <label for="idade">Idade</label>
+                <input type="number" class="form-control" id="idade" th:field="*{idade}" required>
+            </div>
+            <div class="form-group">
+                <label for="raca">Raça</label>
+                <input type="text" class="form-control" id="raca" th:field="*{raca}" required>
+            </div>
+            <div class="form-group">
+                <label for="sexo">Sexo</label>
+                <select id="sexo" class="form-control" th:field="*{sexo}">
+                    <option value="M" th:selected="${animal.sexo == 'M'}">Macho</option>
+                    <option value="F" th:selected="${animal.sexo == 'F'}">Fêmea</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="tutor">Tutor</label>
+                <select id="tutor" class="form-control" th:field="*{tutor.id}">
+                    <option value="" th:selected="${animal.tutor == null}">Sem tutor</option>
+                    <option th:each="tutor : ${tutores}" th:value="${tutor.id}" th:text="${tutor.nome}" th:selected="${animal.tutor != null && animal.tutor.id == tutor.id}"></option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success">Confirmar</button>
+            <a th:href="@{/animais/listar}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

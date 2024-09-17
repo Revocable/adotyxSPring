@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmar Exclusão de Usuário</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div th:replace="~{fragments/header :: header}"></div>
+   
+    <div class="container mt-4">
+        <h2>Confirmar Exclusão de Usuário</h2>
+        <div class="alert alert-danger" role="alert">
+            Você tem certeza que deseja excluir este usuário?
+        </div>
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title" th:text="${usuario.nome}"></h5>
+                <p class="card-text" th:text="'E-mail: ' + ${usuario.email}"></p>
+                <img th:if="${usuario.pathFoto}" th:src="${usuario.pathFoto}" class="img-thumbnail" alt="Foto do usuário" style="max-width: 200px;">
+            </div>
+        </div>
+        <form th:action="@{/usuarios/excluir}" method="post">
+            <input type="hidden" name="id" th:value="${usuario.id}">
+            <button type="submit" class="btn btn-danger">Confirmar Exclusão</button>
+            <a th:href="@{/usuarios/listar}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
