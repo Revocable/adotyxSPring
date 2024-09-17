@@ -1,6 +1,11 @@
 package br.com.adotyx.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -9,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import br.com.adotyx.model.dao.AnimalDAO;
 import br.com.adotyx.model.dao.UsuarioDAO;
 import br.com.adotyx.domain.Animal;
@@ -23,6 +29,8 @@ public class AnimalController {
 
     @Autowired
     private UsuarioDAO udao;
+
+    private static final String UPLOAD_DIR = "src/main/resources/static/uploads/";
 
     @GetMapping("")
     public String index() {
@@ -41,10 +49,37 @@ public class AnimalController {
     }
 
     @PostMapping("/salvar")
-    public String salvar(Animal animal) {
+    public String salvar(
+            @ModelAttribute("animal") Animal animal,
+            @RequestParam("foto") MultipartFile foto,
+            ModelMap map) {
+    
+        // Processar e salvar o arquivo de foto
+        if (!foto.isEmpty()) {
+            try {
+                // Gera um nome único para o arquivo
+                String filename = System.currentTimeMillis() + "_" + foto.getOriginalFilename();
+                Path path = Paths.get("src/main/resources/static/uploads/", filename);
+                Files.createDirectories(path.getParent()); // Garante que o diretório exista
+                Files.copy(foto.getInputStream(), path);
+                animal.setPathFoto("/uploads/" + filename); // Ajuste conforme necessário
+            } catch (IOException e) {
+                e.printStackTrace();
+                map.addAttribute("message", "Falha ao salvar a foto.");
+                return "/animal/cadastro"; // Voltar para a página de cadastro em caso de erro
+            }
+        }
+    
         adao.save(animal); // Salva o animal no banco de dados
         return "redirect:/animais/listar"; // Redireciona após salvar
     }
+    
+    @GetMapping("/detalhes")
+    public String detalhes(@RequestParam("id") Long id, ModelMap map) {
+        map.addAttribute("animal", adao.findById(id).orElse(null));
+        return "/animal/detalhes";
+    }
+    
 
     @GetMapping("/editar")
     public String editar(@RequestParam("id") Long id, ModelMap map) {
