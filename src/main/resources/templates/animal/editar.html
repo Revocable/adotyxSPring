@@ -13,6 +13,10 @@
         <h2>Editar Animal</h2>
         <form th:action="@{/animais/atualizar}" method="post" th:object="${animal}">
             <input type="hidden" th:field="*{id}">
+            
+            <!-- Campo oculto para preservar a foto atual -->
+            <input type="hidden" th:field="*{pathFoto}">
+
             <div class="form-group">
                 <label for="nome">Nome</label>
                 <input type="text" class="form-control" id="nome" th:field="*{nome}" required>
@@ -39,6 +43,15 @@
                     <option th:each="tutor : ${tutores}" th:value="${tutor.id}" th:text="${tutor.nome}" th:selected="${animal.tutor != null && animal.tutor.id == tutor.id}"></option>
                 </select>
             </div>
+            
+            <!-- Exibir a foto atual do animal -->
+            <div class="form-group">
+                <label for="fotoAtual">Foto Atual</label>
+                <div>
+                    <img th:src="@{'/images/animais/' + ${animal.pathFoto}}" alt="Foto do Animal" class="img-thumbnail" style="max-width: 150px;">
+                </div>
+            </div>
+            
             <button type="submit" class="btn btn-success">Confirmar</button>
             <a th:href="@{/animais/listar}" class="btn btn-secondary">Cancelar</a>
         </form>
