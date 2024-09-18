@@ -4,10 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Usuário</title>
+    <link rel="stylesheet" href="/css/style.css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <div th:replace="~{fragments/header :: header}"></div>
+    <header>
+        <a href="/">
+            <div class="logo">
+                <img src="image/logo.webp" alt="Logo">
+                <h2>Adotyx</h2>
+            </div>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="/">Início</a></li>
+                <li><a href="/animais">Animais</a></li>
+                <!-- <li><a href="chat.html">Chat</a></li> -->
+                <li><a href="/usuarios" class="active">Usuários</a></li>
+            </ul>
+        </nav>
+    </header>
     
     <div class="container mt-4">
         <h2>Cadastro de Usuário</h2>
@@ -29,7 +45,6 @@
         </form>
     </div>
 
-    <div th:replace="~{fragments/footer :: footer}"></div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

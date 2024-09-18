@@ -8,15 +8,38 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <div th:replace="~{fragments/header :: header}"></div>
-    <div class="container mt-4">
-        <h1>Bem-vindo ao Sistema</h1>
-        <div class="list-group">
-            <a href="/animais" class="list-group-item list-group-item-action">Gerenciar Animais</a>
-            <a href="/usuarios" class="list-group-item list-group-item-action">Gerenciar Usuários</a>
+    <header>
+        <a href="/">
+            <div class="logo">
+                <img src="image/logo.webp" alt="Logo">
+                <h2>Adotyx</h2>
+            </div>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="/">Início</a></li>
+                <li><a href="/animais">Animais</a></li>
+                <!-- <li><a href="chat.html">Chat</a></li> -->
+                <li><a href="/usuarios" class="active">Usuários</a></li>
+            </ul>
+        </nav>
+    </header>
+    <!-- <div th:replace="~{fragments/header :: header}"></div> -->
+    <div class="container">
+        <div class="content">
+            <h2>A PLATAFORMA Nº1 EM ADOÇÃO DE PETS</h2>
+            <h1>Um <span>Novo Amigo</span> Espera por Você</h1> 
+            <p>Encontre seu novo melhor amigo entre os animais disponíveis para adoção. Ofereça um lar amoroso e receba amor incondicional em troca.</p>
+            <div class="buttons">
+                <a href="/animais/listar"><button id="services">Ver Animais Disponíveis</button></a>
+                <a href="/animais/cadastrar"><button id="secondary">Cadastrar um Animal</button></a>
+            </div>
+        </div>
+        <div class="image">
+            <img src="image/gato.webp" alt="Pet">
         </div>
     </div>
-    <div th:replace="~{fragments/footer :: footer}"></div>
+    <!-- <div th:replace="~{fragments/footer :: footer}"></div> -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
