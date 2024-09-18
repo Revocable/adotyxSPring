@@ -30,7 +30,7 @@ public class AnimalController {
     @Autowired
     private UsuarioDAO udao;
 
-    private static final String UPLOAD_DIR = "src/main/resources/static/uploads/";
+
 
     @GetMapping("")
     public String index() {
