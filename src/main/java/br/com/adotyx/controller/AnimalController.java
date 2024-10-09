@@ -69,15 +69,21 @@ public class AnimalController {
                     .scale(1)
                     .outputQuality(0.5)
                     .toFile(path.toFile());
-                animal.setPathFoto("/uploads/" + filename); // Ajuste conforme necessário
+                animal.setPathFoto("/uploads/" + filename); 
             } catch (IOException e) {
                 e.printStackTrace();
                 map.addAttribute("message", "Falha ao salvar a foto.");
-                return "/animal/cadastro"; // Voltar para a página de cadastro em caso de erro
+                return "/animal/cadastro"; 
             }
         }
     
         adao.save(animal); // Salva o animal no banco de dados
+        try {
+            Thread.sleep(500); // Tempo de espera (meio segundo)
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    
         return "redirect:/animais/listar"; // Redireciona após salvar
     }
     
