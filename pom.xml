@@ -43,6 +43,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>net.coobird</groupId>
+			<artifactId>thumbnailator</artifactId>
+			<version>0.4.19</version>
+		</dependency>
+
+		<dependency>
 			<groupId>com.queue-it.connector</groupId>
 			<artifactId>jakarta</artifactId>
 			<version>4.0.13</version>

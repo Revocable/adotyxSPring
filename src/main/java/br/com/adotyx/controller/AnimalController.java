@@ -1,5 +1,6 @@
 package br.com.adotyx.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import br.com.adotyx.model.dao.AnimalDAO;
 import br.com.adotyx.model.dao.UsuarioDAO;
+import net.coobird.thumbnailator.Thumbnails;
 import br.com.adotyx.domain.Animal;
 import br.com.adotyx.domain.Usuario;
+import javax.imageio.ImageIO;
 
 @Controller
 @RequestMapping("/animais")
@@ -61,7 +64,11 @@ public class AnimalController {
                 String filename = System.currentTimeMillis() + "_" + foto.getOriginalFilename();
                 Path path = Paths.get("src/main/resources/static/uploads/", filename);
                 Files.createDirectories(path.getParent()); // Garante que o diretório exista
-                Files.copy(foto.getInputStream(), path);
+                
+                Thumbnails.of(foto.getInputStream())
+                    .scale(1)
+                    .outputQuality(0.5)
+                    .toFile(path.toFile());
                 animal.setPathFoto("/uploads/" + filename); // Ajuste conforme necessário
             } catch (IOException e) {
                 e.printStackTrace();
