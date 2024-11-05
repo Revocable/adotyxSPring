@@ -33,11 +33,7 @@ public class AnimalController {
     @Autowired
     private UsuarioDAO udao;
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 004ae42625e815074881199a7c0a3028f4987220
-
+            
     @GetMapping("")
     public String index() {
         return "/animal/index";
