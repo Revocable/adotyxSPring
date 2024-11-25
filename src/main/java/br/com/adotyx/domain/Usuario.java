@@ -29,6 +29,10 @@ public class Usuario implements Serializable {
     @Column(nullable = false)
     private String senha;
 
+    @Column(nullable = false, length = 5)
+    @Enumerated(EnumType.STRING)
+    private Tipo tipo;
+
     @OneToMany(mappedBy = "tutor", cascade = CascadeType.ALL)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

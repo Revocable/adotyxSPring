@@ -22,13 +22,22 @@
             <ul>
                 <li><a href="/" class="active">Início</a></li>
                 <li><a href="/animais">Pets</a></li>
-                <li><a href="/usuarios">Usuários</a></li>
+                <li><a href="/usuarios/listar">Usuários</a></li>
                 <li><a href="/">Minha Conta</a></li>
-                <li><a href="login.html" class="button">Entrar</a></li>
+                <li><a href="/usuarios/cadastrar" class="button">Entrar</a></li>
+
+                <!-- Verifica se o usuário está logado -->
+                <li th:if="${username != null}">
+                    <span>Olá, <span th:text="${username}"></span>!</span>
+                </li>
+                <!-- Se não estiver logado, sugere login ou cadastro -->
+                <li th:if="${username == null}">
+                    <span>Olá! Faça <a href="/usuarios/login">login</a> ou <a href="/usuarios/cadastrar">crie uma conta</a>.</span>
+                </li>
             </ul>
         </nav>
     </header>
-    <!-- <div th:replace="~{fragments/header :: header}"></div> -->
+    
     <div class="container">
         <div class="content">
             <h2>A PLATAFORMA Nº1 EM ADOÇÃO DE PETS</h2>
@@ -43,7 +52,7 @@
             <img src="image/gato.webp" alt="Pet">
         </div>
     </div>
-    <!-- <div th:replace="~{fragments/footer :: footer}"></div> -->
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

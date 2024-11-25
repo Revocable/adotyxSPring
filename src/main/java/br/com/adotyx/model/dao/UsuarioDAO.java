@@ -9,9 +9,9 @@ import java.util.Optional;
 
 public interface UsuarioDAO extends JpaRepository<Usuario, Long> {
     @Query("SELECT u FROM Usuario u WHERE u.nome LIKE %:nome%")
-    List<Usuario> findByNome(@Param("nome") String nome);
+    /*List<Usuario> findByNome(@Param("nome") String nome);*/
 
-
+    Usuario findByNome(String nome);  // Método para buscar o usuário pelo nome
 
     @Query("SELECT u FROM Usuario u WHERE u.pathFoto LIKE %:pathFoto%")
     List<Usuario> findByPathFoto(@Param("pathFoto") String pathFoto);

@@ -1,13 +1,14 @@
 package br.com.adotyx.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
+import java.util.List; // Adicionada a importação
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,12 +17,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
 import br.com.adotyx.model.dao.AnimalDAO;
 import br.com.adotyx.model.dao.UsuarioDAO;
 import net.coobird.thumbnailator.Thumbnails;
 import br.com.adotyx.domain.Animal;
 import br.com.adotyx.domain.Usuario;
-import javax.imageio.ImageIO;
 
 @Controller
 @RequestMapping("/animais")
@@ -33,16 +34,24 @@ public class AnimalController {
     @Autowired
     private UsuarioDAO udao;
 
-            
     @GetMapping("")
     public String index() {
         return "/animal/index";
     }
-
     @GetMapping("/cadastrar")
-    public String cadastrar(Animal animal) {
+    public String cadastrar(Animal animal, ModelMap map) {
+        // Recuperar o usuário logado
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String email = userDetails.getUsername();
+        Usuario usuario = udao.findByEmail(email).orElse(null);
+    
+        // Definir o tutor (usuário logado) para o animal
+        animal.setTutor(usuario);
+    
+        map.addAttribute("usuarioLogado", usuario);  // Adiciona o usuário logado no modelo
         return "/animal/cadastro"; // Retorna a página de cadastro
     }
+    
 
     @GetMapping("/listar")
     public String listar(ModelMap map) {
@@ -75,14 +84,22 @@ public class AnimalController {
                 return "/animal/cadastro"; 
             }
         }
-    
+
+        // Recuperar o usuário logado
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String email = userDetails.getUsername();
+        Usuario usuario = udao.findByEmail(email).orElse(null); // Corrigido para lidar com o Optional
+
+        // Definir o tutor (usuário) para o animal
+        animal.setTutor(usuario);
+
         adao.save(animal); // Salva o animal no banco de dados
         try {
             Thread.sleep(500); // Tempo de espera (meio segundo)
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    
+
         return "redirect:/animais/listar"; // Redireciona após salvar
     }
     

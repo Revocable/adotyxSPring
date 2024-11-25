@@ -57,10 +57,7 @@
             </div>
             <div class="form-group">
                 <label for="tutor">Tutor</label>
-                <select class="form-control" id="tutor" th:field="*{tutor}">
-                    <option value="">Selecione um tutor</option>
-                    <option th:each="tutor : ${tutores}" th:value="${tutor.id}" th:text="${tutor.nome}"></option>
-                </select>
+                <input type="text" class="form-control" id="tutor" th:value="${usuarioLogado.nome}" readonly>
             </div>
             <button type="submit" class="btn btn-primary">Cadastrar</button>
         </form>
