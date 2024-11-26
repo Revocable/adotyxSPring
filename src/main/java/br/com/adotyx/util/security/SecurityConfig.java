@@ -23,22 +23,20 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeHttpRequests(authz -> authz
-                .requestMatchers("/", "/home", "/css/**", "/image/**", "/uploads/**", 
-                                 "/usuarios/cadastrar", "/usuarios/salvar")
-                .permitAll()
-                .anyRequest().authenticated()
-            )
-            .formLogin(form -> form
-                .loginPage("/usuarios/login")
-                .loginProcessingUrl("/usuarios/login")
-                .defaultSuccessUrl("/", true)
-                .failureUrl("/usuarios/login?error=true")
-                .permitAll()
-            )
-            .logout(logout -> logout
-                .permitAll()
-            );
+                .authorizeHttpRequests(authz -> authz
+                        .requestMatchers("/", "/home", "/css/**", "/image/**", "/uploads/**",
+                                "/usuarios/cadastrar", "/usuarios/salvar",
+                                "/mensagens/chat", "/mensagens/chat/**") // Add these lines
+                        .permitAll()
+                        .anyRequest().authenticated())
+                .formLogin(form -> form
+                        .loginPage("/usuarios/login")
+                        .loginProcessingUrl("/usuarios/login")
+                        .defaultSuccessUrl("/", true)
+                        .failureUrl("/usuarios/login?error=true")
+                        .permitAll())
+                .logout(logout -> logout
+                        .permitAll());
 
         return http.build();
     }

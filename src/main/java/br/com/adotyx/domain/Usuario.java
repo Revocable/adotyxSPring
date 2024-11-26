@@ -1,9 +1,9 @@
 package br.com.adotyx.domain;
 
-import java.io.Serializable;
-import java.util.List;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "usuarios")
@@ -11,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Usuario implements Serializable {
+public class Usuario {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,4 +37,8 @@ public class Usuario implements Serializable {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<Animal> animais;
+
+    // Relacionamento com os contatos, baseado em mensagens enviadas
+    @Transient
+    private List<Usuario> contatos;
 }

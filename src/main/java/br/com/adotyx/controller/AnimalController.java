@@ -38,20 +38,20 @@ public class AnimalController {
     public String index() {
         return "/animal/index";
     }
+
     @GetMapping("/cadastrar")
     public String cadastrar(Animal animal, ModelMap map) {
         // Recuperar o usuário logado
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String email = userDetails.getUsername();
         Usuario usuario = udao.findByEmail(email).orElse(null);
-    
+
         // Definir o tutor (usuário logado) para o animal
         animal.setTutor(usuario);
-    
-        map.addAttribute("usuarioLogado", usuario);  // Adiciona o usuário logado no modelo
+
+        map.addAttribute("usuarioLogado", usuario); // Adiciona o usuário logado no modelo
         return "/animal/cadastro"; // Retorna a página de cadastro
     }
-    
 
     @GetMapping("/listar")
     public String listar(ModelMap map) {
@@ -64,7 +64,7 @@ public class AnimalController {
             @ModelAttribute("animal") Animal animal,
             @RequestParam("foto") MultipartFile foto,
             ModelMap map) {
-    
+
         // Processar e salvar o arquivo de foto
         if (!foto.isEmpty()) {
             try {
@@ -72,16 +72,16 @@ public class AnimalController {
                 String filename = System.currentTimeMillis() + "_" + foto.getOriginalFilename();
                 Path path = Paths.get("src/main/resources/static/uploads/", filename);
                 Files.createDirectories(path.getParent()); // Garante que o diretório exista
-                
+
                 Thumbnails.of(foto.getInputStream())
-                    .scale(1)
-                    .outputQuality(0.5)
-                    .toFile(path.toFile());
-                animal.setPathFoto("/uploads/" + filename); 
+                        .scale(1)
+                        .outputQuality(0.5)
+                        .toFile(path.toFile());
+                animal.setPathFoto("/uploads/" + filename);
             } catch (IOException e) {
                 e.printStackTrace();
                 map.addAttribute("message", "Falha ao salvar a foto.");
-                return "/animal/cadastro"; 
+                return "/animal/cadastro";
             }
         }
 
@@ -102,13 +102,19 @@ public class AnimalController {
 
         return "redirect:/animais/listar"; // Redireciona após salvar
     }
-    
+
     @GetMapping("/detalhes")
     public String detalhes(@RequestParam("id") Long id, ModelMap map) {
-        map.addAttribute("animal", adao.findById(id).orElse(null));
+        // Recupera o animal e o usuário logado
+        Animal animal = adao.findById(id).orElse(null);
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String email = userDetails.getUsername();
+        Usuario usuario = udao.findByEmail(email).orElse(null);
+
+        map.addAttribute("animal", animal);
+        map.addAttribute("usuarioLogado", usuario); // Passa o usuário logado para o template
         return "/animal/detalhes";
     }
-    
 
     @GetMapping("/editar")
     public String editar(@RequestParam("id") Long id, ModelMap map) {
@@ -130,8 +136,27 @@ public class AnimalController {
 
     @PostMapping("/excluir")
     public String excluir(@RequestParam("id") Long id) {
-        adao.deleteById(id); // Exclui o animal do banco de dados
-        return "redirect:/animais/listar"; // Redireciona após excluir
+        // Recupera o animal a ser excluído
+        Animal animal = adao.findById(id).orElse(null);
+
+        // Se o animal não for encontrado, redireciona de volta para a lista
+        if (animal == null) {
+            return "redirect:/animais/listar";
+        }
+
+        // Recupera o usuário logado
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String email = userDetails.getUsername();
+        Usuario usuario = udao.findByEmail(email).orElse(null);
+
+        // Verifica se o usuário logado é o tutor do animal
+        if (animal.getTutor() != null && animal.getTutor().equals(usuario)) {
+            // Se for o tutor, exclui o animal
+            adao.deleteById(id);
+        }
+
+        // Redireciona para a lista de animais
+        return "redirect:/animais/listar";
     }
 
     @ModelAttribute("tutores")
