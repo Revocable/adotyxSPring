@@ -47,13 +47,11 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="tipo">Tipo de usuário</label>
-                    <select id="tipo" class="form-control" th:field="*{tipo}">
-                        <option value="">Selecione</option>
-                        <option th:each="tipo : ${tipos}" th:value="${tipo}" th:text="${tipo.descricao}">Admin</option>
+                    <select id="tipo" class="form-control" th:field="*{tipo}" disabled>
+                        <option value="USER" selected>USER</option>
                     </select>
-                    
                 </div>
-            <!-- Removido o campo de input para pathFoto -->
+            </div>
             <button type="submit" class="btn btn-primary">Cadastrar</button>
         </form>
     </div>

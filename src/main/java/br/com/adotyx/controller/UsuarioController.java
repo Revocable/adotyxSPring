@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import br.com.adotyx.model.dao.UsuarioDAO;
+import br.com.adotyx.domain.Tipo;
 import br.com.adotyx.domain.Usuario;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import java.util.List;
@@ -24,8 +25,11 @@ public class UsuarioController {
     @Autowired
     private UsuarioDAO usuarioDAO;
 
-    
-
+    @GetMapping("/cadastrar")
+    public String cadastro(ModelMap map) {
+        map.addAttribute("usuario", new Usuario()); // Adicionando o objeto vazio para o formulário
+        return "/usuario/cadastro"; // Nome da página de cadastro
+    }
 
     @GetMapping("/login")
     public String login() {
@@ -35,6 +39,7 @@ public class UsuarioController {
     @PostMapping("/salvar")
     public String salvar(Usuario usuario) {
         // Lógica para salvar o usuário, criptografando a senha
+        usuario.setTipo(Tipo.USER);
         usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
         usuarioDAO.save(usuario);
         return "redirect:/usuarios/listar";
