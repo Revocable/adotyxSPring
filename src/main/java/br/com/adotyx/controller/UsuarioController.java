@@ -44,6 +44,12 @@ public class UsuarioController {
         return "/usuario/login"; // Nome da página de login
     }
 
+    @GetMapping("/logout")
+    public String logout() {
+        // Redireciona para a página inicial (ou qualquer outra) após logout
+        return "redirect:/";
+    }
+
     @PostMapping("/salvar")
     public String salvar(Usuario usuario) {
         // Lógica para salvar o usuário, criptografando a senha
@@ -67,10 +73,27 @@ public class UsuarioController {
     }
 
     @PostMapping("/atualizar")
-    public String atualizar(Usuario usuario) {
-        usuario.setTipo(Tipo.USER);
-        usuarioDAO.save(usuario); // Atualiza os dados do usuário
-        return "redirect:/usuarios/listar"; // Redireciona para a lista de usuários após atualizar
+    public String atualizar(@ModelAttribute Usuario usuario, RedirectAttributes redirectAttributes) {
+        // Obtém o usuário logado
+        Usuario usuarioLogado = getUsuarioLogado();
+        if (usuarioLogado == null) {
+            return "redirect:/usuarios/login"; // Redireciona para o login se não autenticado
+        }
+    
+        // Atualiza apenas os campos permitidos
+        usuarioLogado.setNome(usuario.getNome());
+        usuarioLogado.setEmail(usuario.getEmail());
+        if (usuario.getSenha() != null && !usuario.getSenha().isEmpty()) {
+            usuarioLogado.setSenha(passwordEncoder.encode(usuario.getSenha()));
+        }
+    
+        // Salva as alterações no banco
+        usuarioDAO.save(usuarioLogado);
+        
+        // Adiciona uma mensagem de sucesso
+        redirectAttributes.addFlashAttribute("success", "Dados atualizados com sucesso!");
+    
+        return "redirect:/"; 
     }
 
     @GetMapping("/deletar")
@@ -107,6 +130,17 @@ public class UsuarioController {
             redirectAttributes.addFlashAttribute("error", "Erro ao excluir usuário: " + e.getMessage());
             return "redirect:/usuarios/listar";
         }
+    }
+
+    @GetMapping("/conta")
+    public String conta(ModelMap map) {
+        // Obtém o usuário logado
+        Usuario usuarioLogado = getUsuarioLogado();
+        if (usuarioLogado == null) {
+            return "redirect:/usuarios/login"; // Redireciona para login se não estiver autenticado
+        }
+        map.addAttribute("usuario", usuarioLogado); // Passa o usuário para o modelo
+        return "/usuario/account"; // Nome do template da conta
     }
 
     // Método para listar todos os usuários

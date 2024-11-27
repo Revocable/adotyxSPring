@@ -65,7 +65,7 @@ public class UsuarioService {
     
     @Transactional
     public void atualizarUsuario(Usuario usuario) {
-        // Se a senha for alterada, criptografa
+        // Criptografa a senha se ela for alterada
         if (usuario.getSenha() != null && !usuario.getSenha().isEmpty()) {
             usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
         }

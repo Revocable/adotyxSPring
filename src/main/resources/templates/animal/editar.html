@@ -14,16 +14,22 @@
     <header>
         <a href="/">
             <div class="logo">
-                <img src="/image/logo.webp" alt="Logo">
+                <i class="fas fa-paw"></i>
                 <h2>Adotyx</h2>
             </div>
+        </a>
             <nav>
                 <ul>
                     <li><a href="/">Início</a></li>
                     <li><a href="/animais" class="active">Pets</a></li>
-                    <li><a href="/usuarios/listar">Usuários</a></li>
-                    <li><a href="/">Minha Conta</a></li>
-                    <li><a href="login.html" class="button">Entrar</a></li>
+                    <li><a href="/mensagem/chat">Chat</a></li>
+                    <li><a href="/usuarios/conta">Minha Conta</a></li>
+                    <li th:if="${username == null}">
+                        <a href="login.html" class="button">Entrar</a>
+                    </li>
+                    <li th:if="${username != null}">
+                        <span>Olá, <span th:text="${username}"></span>!</span>
+                    </li>
                 </ul>
             </nav>
     </header>

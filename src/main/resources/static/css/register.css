@@ -1,0 +1,221 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;1,100;1,200;1,300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+@font-face {
+    font-family: 'Assemblage';
+    src: url('../fonts/Assemblage\ W00\ Semibold.ttf') format('truetype');
+    font-weight: 600; 
+    font-style: normal;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins';
+}
+
+body
+{
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #e2dfdf !important;
+}
+
+
+a {
+    text-decoration: none !important;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.logo:hover {
+    transform: translateY(-5px);
+}
+
+.logo i {
+    font-size: 35px;
+    margin-right: 10px;
+    color: #6C41AA;
+}
+
+.logo h2 {
+    font-size: 30px;
+    margin: 0;
+    color: #6C41AA;
+    font-weight: 1000;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1400px;
+    margin: 30px auto;
+    margin-top: 40px;
+}
+
+header nav ul {
+    display: flex;
+    list-style: none;
+    gap: 60px;
+}
+
+header nav ul li {
+    margin: 0;
+    padding: 0;
+    transition: 0.3s;
+}
+
+header nav ul li:hover {
+    transform: translateY(-5px);
+}
+
+header nav ul li a {
+    text-decoration: none;
+    color: #000;
+    font-weight: 650;
+    transition: color 0.2s, transform 0.2s;
+    font-size: 19px;
+}
+
+header nav ul li a:hover {
+    color: #6C41AA;
+}
+
+header nav ul li a.button{
+    text-decoration: none;
+    color: #fff;
+    background-color: #6C41AA;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+header nav ul li a.active {
+    border-bottom: 2px solid #6C41AA;
+    color: #6C41AA;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    text-align: left;
+    height: 775px;
+    padding: 150px;
+    max-width: 1400px !important;
+    margin: 0px auto;
+    background: rgba(255, 255, 255, 0.14);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(17.4px);
+    -webkit-backdrop-filter: blur(17.4px);
+}
+
+.login-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    height: 450px;  
+    padding: 40px;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.14);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(17.4px);
+    -webkit-backdrop-filter: blur(17.4px);
+}
+
+.login-box h2 {
+    text-align: center;
+    color: #6C41AA;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.login-box .user-box {
+    position: relative;
+}
+
+.login-box .user-box input {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #000;
+    margin-bottom: 30px;
+    border: none;
+    border-bottom: 1px solid #000;
+    outline: none;
+    background: transparent;
+}
+
+.login-box .user-box label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #000;
+    pointer-events: none;
+    transition: .5s;
+}
+
+.login-box .user-box input:focus~label,
+.login-box .user-box input:valid~label {
+    top: -20px;
+    left: 0;
+    color: #000;
+    font-size: 12px;
+}
+
+.login-box form button {
+    position: relative;
+    display: block; 
+    margin: 0 auto; 
+    margin-top: 25px;
+    padding: 10px 20px;
+    color: #000;
+    font-size: 16px;
+    text-transform: uppercase;
+    overflow: hidden;
+    transition: .5s;
+    letter-spacing: 4px;
+    background: none;
+    border: none;
+}
+
+.login-box button:hover {
+    background: rgb(108, 65, 170);
+    color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #6C41AA,
+        0 0 25px #6C41AA,
+        0 0 50px #6C41AA,
+        0 0 100px #6C41AA;
+}
+
+.register-link {
+    font-size: 14px;
+    color: #000;
+    /* text-align: center; */
+}
+
+.register-link a {
+    color: #6C41AA;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.register-link a:hover {
+    color: #4e2d87;
+}

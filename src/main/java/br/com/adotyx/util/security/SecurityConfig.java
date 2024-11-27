@@ -26,7 +26,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/", "/home", "/css/**", "/image/**", "/uploads/**",
                                 "/usuarios/cadastrar", "/usuarios/salvar",
-                                "/mensagens/chat", "/mensagens/chat/**") // Add these lines
+                                "/mensagens/chat", "/mensagens/chat/**")
                         .permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form
@@ -36,11 +36,15 @@ public class SecurityConfig {
                         .failureUrl("/usuarios/login?error=true")
                         .permitAll())
                 .logout(logout -> logout
-                        .permitAll());
-
+                    .logoutUrl("/usuarios/logout")
+                    .logoutRequestMatcher(new org.springframework.security.web.util.matcher.AntPathRequestMatcher("/usuarios/logout", "GET"))
+                    .logoutSuccessUrl("/")
+                    .invalidateHttpSession(true)
+                    .deleteCookies("JSESSIONID"));
+    
         return http.build();
     }
-
+    
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

@@ -75,6 +75,12 @@ header nav ul li:hover {
     transform: translateY(-5px);
 }
 
+header nav ul li span {
+    font-weight: bolder;
+    color: #6C41AA;
+    font-size: 19px;
+}
+
 header nav ul li a {
     text-decoration: none;
     color: #000;

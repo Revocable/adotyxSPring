@@ -49,14 +49,30 @@ public class AnimalController {
         // Definir o tutor (usuário logado) para o animal
         animal.setTutor(usuario);
 
+        // Adiciona o usuário logado e o username ao modelo
         map.addAttribute("usuarioLogado", usuario); // Adiciona o usuário logado no modelo
+        map.addAttribute("username", userDetails.getUsername()); // Adiciona o nome de usuário
+
         return "/animal/cadastro"; // Retorna a página de cadastro
     }
 
     @GetMapping("/listar")
     public String listar(ModelMap map) {
-        map.addAttribute("animais", adao.findAll()); // Adiciona lista de animais ao modelo
-        return "/animal/listar"; // Retorna a página de listagem
+        // Adiciona os animais à página
+        map.addAttribute("animais", adao.findAll());
+
+        // Adiciona o nome do usuário logado ao modelo
+        String username = null;
+        try {
+            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                    .getPrincipal();
+            username = userDetails.getUsername();
+        } catch (Exception e) {
+            // Se o usuário não estiver logado, o username permanece nulo
+        }
+        map.addAttribute("username", username);
+
+        return "/animal/listar";
     }
 
     @PostMapping("/salvar")
@@ -112,7 +128,8 @@ public class AnimalController {
         Usuario usuario = udao.findByEmail(email).orElse(null);
 
         map.addAttribute("animal", animal);
-        map.addAttribute("usuarioLogado", usuario); // Passa o usuário logado para o template
+        map.addAttribute("usuarioLogado", usuario); // Adiciona o usuário logado no modelo
+        map.addAttribute("username", userDetails.getUsername()); // Adiciona o nome de usuário
         return "/animal/detalhes";
     }
 

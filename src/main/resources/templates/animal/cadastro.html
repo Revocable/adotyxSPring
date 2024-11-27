@@ -3,9 +3,9 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="/css/style.css">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+        <link rel="stylesheet" type="text/css" href="/css/cadastro.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
         <link rel="icon" type="image/x-icon" href="assets/logo.ico">
         <title>Adotyx</title>
@@ -14,7 +14,7 @@
     <header>
         <a href="/">
             <div class="logo">
-                <img src="/image/logo.webp" alt="Logo">
+                <i class="fas fa-paw"></i>
                 <h2>Adotyx</h2>
             </div>
         </a>
@@ -22,44 +22,50 @@
             <ul>
                 <li><a href="/">Início</a></li>
                 <li><a href="/animais" class="active">Pets</a></li>
-                <li><a href="/usuarios">Usuários</a></li>
-                <li><a href="/">Minha Conta</a></li>
-                <li><a href="login.html" class="button">Entrar</a></li>
+                <li><a href="/">Chat</a></li>
+                <li><a href="/usuarios/conta">Minha Conta</a></li>
+                <!-- Exibe "Entrar" se o usuário não estiver logado -->
+                <li th:if="${username == null}">
+                    <a href="login.html" class="button">Entrar</a>
+                </li>
+                <!-- Exibe o nome do usuário logado -->
+                <li th:if="${username != null}">
+                    <span>Olá, <span th:text="${username}"></span>!</span>
+                </li>
             </ul>
         </nav>
     </header>
     
-    <div class="container mt-4">
+    <div class="login-box">
         <h2>Cadastro de Animal</h2>
-        <form th:action="@{/animais/salvar}" method="post" th:object="${animal}" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="nome">Nome</label>
+        <form id="pet-form" th:action="@{/animais/salvar}" method="post" th:object="${animal}" enctype="multipart/form-data">
+            <div class="user-box">
                 <input type="text" class="form-control" id="nome" th:field="*{nome}" required>
+                <label for="nome">Nome</label>
             </div>
-            <div class="form-group">
-                <label for="idade">Idade</label>
+            <div class="user-box">
                 <input type="number" class="form-control" id="idade" th:field="*{idade}" required>
+                <label for="idade">Idade</label>
             </div>
-            <div class="form-group">
-                <label for="raca">Raça</label>
+            <div class="user-box">
                 <input type="text" class="form-control" id="raca" th:field="*{raca}" required>
+                <label for="raca">Raça</label>
             </div>
-            <div class="form-group">
-                <label for="sexo">Sexo</label>
-                <select class="form-control" id="sexo" th:field="*{sexo}" required>
+            <div class="user-box">
+                <select name="gender" id="sexo" th:field="*{sexo}" required>
                     <option value="M">Macho</option>
                     <option value="F">Fêmea</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label for="foto">Foto</label>
+            <div class="user-box">
                 <input type="file" class="form-control-file" id="foto" name="foto">
+                <label for="foto">Foto</label>
             </div>
-            <div class="form-group">
-                <label for="tutor">Tutor</label>
+            <div class="user-box">
                 <input type="text" class="form-control" id="tutor" th:value="${usuarioLogado.nome}" readonly>
+                <label for="tutor">Tutor</label>
             </div>
-            <button type="submit" class="btn btn-primary">Cadastrar</button>
+            <button type="submit">Cadastrar</button>
         </form>
     </div>
 

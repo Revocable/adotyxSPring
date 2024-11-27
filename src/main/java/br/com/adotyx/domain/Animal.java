@@ -26,7 +26,7 @@ public class Animal implements Serializable {
     private String raca;
 
     @Column(nullable = false)
-    private char sexo;
+    private String sexo;
 
     @Column(nullable = true)
     private String pathFoto;
